@@ -1,0 +1,32 @@
+Le code de la classe Cptb est identique au code de Cpt à l'exception de la méthode main, donnée ci-dessous.
+
+a. Quelle est la différence entre thr1.run() et thr1.start()? 
+    Thr1.run() exécute la fonction run() seulement sans créer un processus 
+    alors que thr1.start() crée un processus et exécute run().
+    
+b. Indiquez le nombre maximum de processus légers co-existants au cours de l’exécution de Cptb.
+	    Puisque thr1.run() ne crée pas un nouveau processus, le nombre maximum est 2 : main et thr2.
+      
+c. Indiquez la variable partagée par thr1 et thr2.
+    	_cpt (statique).
+      
+d. Indiquez le nombre d’incrémentation de la variable global _cpt, par chaque processus léger. 
+    	Chaque processus incrémente 100 000 fois.
+      
+e. Qu’elle doit être la valeur affichée à la fin de l’exécution du code ? 
+	    200 001
+      
+f. Expliquez les résultats obtenus lors de l’exécution de java Cptb (faire plusieurs exécutions).
+	  Après avoir exécuté plusieurs fois, on remarque que la valeur est 200 001 (espérée) et reste fixe.
+    En effet, 2 processus sont exécutés en parallèle : thr2 et main. Puisqu’il on a utilisé join() pour thr2, 
+    main attend l’exécution de thr2 et exécute  thr1.run().  
+    
+	 
+public static void main(String args[]) {
+Cpt thr1 = new Cpt("Processus1"); 
+Cpt thr2 = new Cpt("Processus2");
+thr1.run(); thr2.start();
+try { thr2.join(); } 
+catch (Exception e) {System.out.println(e);} 
+System.out.println("VALEUR "+Cpt.getValeur()); 
+}
