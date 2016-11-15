@@ -1,0 +1,14 @@
+A chaque execution un resultat different s'affiche dont un exemple:
+
+fin du main
+le train CORAIL part
+le train TGV part
+le train TGV roule
+le train CORAIL roule
+le train TGV s'arrête
+le train CORAIL s'arrête
+
+A chaque exécution, main affiche toujours la première. Ceci puisque qu'il n'y a pas de join() pour les autres thread.
+Main,ainsi, n'attend pas la fin de l'exécution des autres threads.
+
+Les processus Corail et Tgv sont executés en parallèle ce qui explique la difference entre les résultats à chaque exécution.
