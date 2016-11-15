@@ -1,0 +1,47 @@
+Programmez la classe Cpt.
+
+a. Indiquez le nombre maximum de processus légers co-existants au cours de l’exécution de Cpt. 
+    Nombre max est 3 processus:
+      1.	main
+      2.	thr1
+      3.	thr2
+      
+b. Indiquez le nombre d’incrémentation de la variable global _cpt, par chaque processus léger. 
+      Chacun des processus thr1 et thr2 incrémenteront _cpt 100 000 fois. 
+      Celle-ci sera incrémentée, au total 200 000 et aura finalement comme valeur 200 001.
+      
+c. Qu’elle doit être la valeur affichée à la fin de l’exécution du code ?
+	    Elle doit  être 200 001 puisque _cpt était initialement 1.
+  
+d. Expliquez les résultats obtenus lors de l’exécution de java Cpt (faire plusieurs exécutions).
+      Après avoir exécuté plusieurs fois, on remarque que la valeur initiale est au fait 1 mais la valeur finale est inférieure
+      au résultat espéré et change à chaque exécution. Au fait, 2 processus sont exécutés en parallèle : thr1 et thr2 et manipule 
+      la même variable_cpt , c’est pourquoi chaque fois une valeur distincte est affichée et non pas fixe.
+      
+
+public class Cpt extends Thread {
+   	private static int _cpt = 1; 
+   	private String _name;
+    	public Cpt(String name) { 
+_name = name; } 
+public static int getValeur() {
+return _cpt;
+}
+public void run() {
+for (int i = 1; i <= 100000; i++) {
+int _c = _cpt; 
+_cpt = _c+1; 
+} 
+}
+public static void main(String args[]) {
+System.out.println("VALEUR "+Cpt.getValeur()); 
+Cpt thr1 = new Cpt("Processus1"); 
+Cpt thr2 = new Cpt("Processus2");
+thr1.start(); thr2.start(); 
+try { 
+thr1.join(); thr2.join(); 
+} catch (Exception e) {
+System.out.println(e);
+}
+System.out.println("VALEUR "+Cpt.getValeur()); 
+} }
